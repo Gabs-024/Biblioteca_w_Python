@@ -1,0 +1,77 @@
+# Ambiente Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+biblioteca_venv/
+ENV/
+env.bak/
+venv.bak/
+*.env
+
+# Configurações de editor
+.vscode/
+.idea/
+*.swp
+
+# Arquivos de banco de dados locais
+db.sqlite3
+*.sqlite3
+
+# Arquivos do Django
+/static/
+media/
+*.log
+*.pot
+*.pyc
+*.pyo
+
+# Caches do Django
+*.log
+local_settings.py
+
+# Celery
+celerybeat-schedule
+celerybeat.pid
+
+# Teste
+coverage_html_report/
+.tox/
+.nox/
+.coverage
+.coverage.*
+
+# Arquivos de configuração
+*.ini
+*.cfg
+*.toml
+
+# Arquivos de build
+*.egg-info/
+.installed.cfg
+*.egg
+build/
+dist/
+wheels/
+*.manifest
+*.spec
+
+# Outros
+.DS_Store
+*.snap
+*.crt
+*.pem
+*.key
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Pylint
+pylint.log
+
+# Arquivos de serviço
+*.service
+*.pid
