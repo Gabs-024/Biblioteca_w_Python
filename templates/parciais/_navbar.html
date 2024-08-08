@@ -1,5 +1,4 @@
 {% load static %}
-{% load omfilters %}
 
 <nav class="navbar navbar-dark bg-primary navbar-expand-lg">
     <a class="navbar-brand" href="{% url 'produto:lista' %}">Biblioteca da Meia-Noite</a>
@@ -11,7 +10,7 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ml-auto">
             <li class="nav-item active">
-                <a class="nav-link" href="{% url 'produto:lista' %}">Home <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="{% url 'livro:lista' %}">Home <span class="sr-only">(current)</span></a>
             </li>
             {% if request.user.is_authenticated %}
             <li class="nav-item dropdown">
@@ -20,17 +19,17 @@
                     Conta
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="{% url 'pedido:lista' %}">Meus livros</a>
-                    <a class="dropdown-item" href="{% url 'perfil:criar' %}">Atualizar perfil</a>
-                    <a class="dropdown-item" href="{% url 'perfil:logout' %}">Sair</a>
+                    <a class="dropdown-item" href="{% url 'livros:meus_emprestimos' %}">Meus livros</a>
+                    <a class="dropdown-item" href="{% url 'usuario:atualizar' %}">Atualizar perfil</a>
+                    <a class="dropdown-item" href="{% url 'usuario:logout' %}">Sair</a>
                 </div>
             </li>
             {% else %}
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'perfil:criar' %}">Entrar</a>
+                <a class="nav-link" href="{% url 'usuario:cadastrar' %}">Entrar</a>
             </li>
             {% endif %}
-            {% if request.session.carrinho %}
+            {% comment %} {% if request.session.carrinho %}
             <li class="nav-item">
                 <a class="nav-link nav-cart-link active" href="{% url 'produto:carrinho' %}">
                     <span class="nav-cart-count mr-1">
@@ -41,7 +40,7 @@
                     </span>
                 </a>
             </li>
-            {% endif %}
+            {% endif %} {% endcomment %}
         </ul>
         <form method="GET" action="{% url 'produto:busca' %}" class="form-inline my-2 my-lg-0">
             <input class="form-control mr-sm-2" name="termo" value="{{ request.GET.termo }}" type="search" placeholder="Pesquisar" aria-label="Search">
