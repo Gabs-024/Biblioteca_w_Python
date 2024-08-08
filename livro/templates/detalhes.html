@@ -2,15 +2,49 @@
 
 {% block 'conteudo' %}
 
-    <div style="text-align: center;" class="container">
-    <h1> {{ livro.nome }} </h1>
-    <h2> {{ livro.autor }} </h2>
-    <h3> {{ livro.data_cadastro }} </h3>
-    <h3>Status: </h3>
-    {% if livro.emprestado %}
-        Indisponível
-    {% else %}
-        Disponível
-    {% endif %}
+<div style="text-align: center;" class="container">
+    <div class="intro">
+        <div class="intro_img">
+            <img src="..." class="card-img-top" alt="...">
+        </div>
+        <div class="intro_text">
+            <h1> {{ livro.nome }} </h1>
+            <h2> {{ livro.autor }} </h2>
+            <h2> {{ livro.categoria }} </h2>
+            <h3> {{ livro.data_cadastro }} </h3>
+            <h3>Status: </h3>
+            {% if livro.emprestado %}
+            Indisponível
+            {% else %}
+            Disponível
+            {% endif %}
+        </div>
     </div>
-{% endblock %} 
+    <hr>
+    <div class="historico_title">
+        <h3>Histórico: </h3>
+    </div>
+    <div class="historico_info">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Último aluno</th>
+                    <th scope="col">Data Empréstimo</th>
+                    <th scope="col">Data retorno</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in emprestimos %}
+                <tr>
+                    <th scope="row">{{ i.id }}</th>
+                    <td>{{i.nome_estudante}}</td>
+                    <td>{{i.data_emprestimo}}</td>
+                    <td>{{i.data_devolvido}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
