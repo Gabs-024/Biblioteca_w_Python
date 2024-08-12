@@ -19,7 +19,7 @@ class BasePerfil(View):
         self.perfil = None
 
         if self.request.user.is_authenticated:
-            self.perfil = models.Perfil.objects.filter(
+            self.perfil = models.Usuario.objects.filter(
                 usuario=self.request.user
             ).first()
 
@@ -47,7 +47,7 @@ class BasePerfil(View):
         self.perfilform = self.contexto['perfilform']
 
         if self.request.user.is_authenticated:
-            self.template_name = 'perfil/atualizar.html'
+            self.template_name = 'usuario/atualizar.html'
         
         self.renderizar = render(
             self.request, 
@@ -67,25 +67,29 @@ class Cadastrar(BasePerfil):
             )
             return self.renderizar
         
-        username = self.userform.cleaned_data.get('username')
-        password = self.userform.cleaned_data.get('password')
+        nome = self.userform.cleaned_data.get('nome')
+        matricula = self.userform.cleaned_data.get('matricula')
         email = self.userform.cleaned_data.get('email')
-        first_name = self.userform.cleaned_data.get('first_name')
-        last_name = self.userform.cleaned_data.get('last_name')
+        telefone = self.userform.cleaned_data.get('telefone')
+        senha = self.userform.cleaned_data.get('senha')
+        confirma_senha = self.userform.cleaned_data.get('confirma_senha')
         
         if self.request.user.is_authenticated:
             usuario = get_object_or_404(
                 User, 
-                username=self.request.user.username
+                nome=self.request.user.nome
             )
-            usuario.username = username
+            usuario.nome = nome
             
-            if password:
-                usuario.set_password(password)
+            if senha:
+                usuario.set_senha(senha)
 
             usuario.email = email
-            usuario.first_name = first_name
-            usuario.last_name = last_name
+            usuario.matricula = matricula
+            usuario.telefone = telefone
+            usuario.senha = senha
+            usuario.confirma_senha = confirma_senha
+
             usuario.save()
 
             if not self.perfil:
@@ -99,18 +103,18 @@ class Cadastrar(BasePerfil):
 
         else:
             usuario = self.userform.save(commit=False)
-            usuario.set_password(password)
+            usuario.set_senha(senha)
             usuario.save()
 
             perfil = self.perfilform.save(commit=False)
             perfil.usuario = usuario
             perfil.save()
 
-        if password:
+        if senha:
             autentica = authenticate(
                 self.request,
-                username=usuario,
-                password=password
+                nome=usuario,
+                senha=senha
             )
             if autentica:
                 login(self.request, 
@@ -132,10 +136,10 @@ class Atualizar(View):
 
 class Login(View):
     def post(self, *args, **kwargs):
-        username = self.request.POST.get('username')
-        password = self.request.POST.get('password')
+        nome = self.request.POST.get('nome')
+        senha = self.request.POST.get('senha')
 
-        if not username or not password:
+        if not nome or not senha:
             messages.error(
                 self.request,
                 'Usuário e/ou senha inválidos'
@@ -143,7 +147,7 @@ class Login(View):
             return redirect('usuario:cadastro')
         
         usuario = authenticate(
-            self.request, username=username, password=password)
+            self.request, nome=nome, senha=senha)
         
         if not usuario:
             messages.error(

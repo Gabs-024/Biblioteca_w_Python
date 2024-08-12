@@ -32,6 +32,7 @@
                     <th scope="col">Último aluno</th>
                     <th scope="col">Data Empréstimo</th>
                     <th scope="col">Data retorno</th>
+                    <th scope="col">Duração</th>
                 </tr>
             </thead>
             <tbody>
@@ -41,6 +42,7 @@
                     <td>{{i.nome_estudante}}</td>
                     <td>{{i.data_emprestimo}}</td>
                     <td>{{i.data_devolvido}}</td>
+                    <td>{{i.data_emprestimo|calcula_duracao:i.data_devolvido}} dias</td>
                 </tr>
                 {% endfor %}
             </tbody>
