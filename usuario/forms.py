@@ -23,16 +23,6 @@ class UserForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         self.usuario = kwargs.pop('usuario', None)
         super().__init__(*args, **kwargs)
-
-    class Meta:
-        model = User
-        fields = ('nome',
-                    'matricula',
-                    'data_nascimento',
-                    'email',
-                    'telefone',
-                    'senha',
-                    'confirma_senha')
     
     def clean (self, *args, **kwargs):
         cleaned = super().clean()

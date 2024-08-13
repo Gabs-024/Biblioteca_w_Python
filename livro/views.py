@@ -1,5 +1,6 @@
 from django.shortcuts import render
 
+from emprestimo.models import Emprestimo
 from livro.models import Livro
 from usuario.models import Usuario
 
@@ -9,9 +10,15 @@ from usuario.models import Usuario
 
 def home(request):
     if request.session.get('usuario'):
-        usuario = Usuario.objects.get(id = request.session['usuario'])
-        livros = Livro.objects.filter(usuario = usuario)
-        return render(request, 'home.html', {'livros': livros})
+        livros = Livro.objects.all(),
+        usuario = Usuario.objects.get(id = request.session['usuario']),
+        emprestimos = Emprestimo.objects.filter(livro = livro),
+        livros_emprestar = Livros.objects.filter(usuario = usuario).filter(emprestado = False),
+        return render(request, 'home.html', {'livros': livros,
+                                             'emprestimos': emprestimos,
+                                             'usuario_logado': request.session.get('usuario'),
+                                             'id_livro': id,
+                                             'livros_emprestar': livros_emprestar})
     
 def detalhes(request, id):
     if request.session.get('usuario'):

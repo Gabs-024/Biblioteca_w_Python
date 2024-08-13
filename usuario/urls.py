@@ -1,5 +1,5 @@
 from django.urls import path
-from views import Cadastrar, Atualizar, Login, Logout
+from .views import Cadastrar, Atualizar, Login, Logout
 
 app_name="usuario"
 
