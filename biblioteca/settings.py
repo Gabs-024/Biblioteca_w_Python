@@ -13,9 +13,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 from django.contrib.messages import constants
 import os
 from pathlib import Path
-from dotenv import load_dotenv
 
-load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -43,6 +41,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "livro",
     "usuario",
+    "emprestimo",
     "crispy_forms",
     "crispy_bootstrap4",
 ]
@@ -73,9 +72,6 @@ TEMPLATES = [
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
             ],
-        "LIBRARIES":{
-            "filters": "livro.templatetags.filters",
-            }
         },
     },
 ]
