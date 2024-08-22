@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block 'conteudo' %}
+    <div class="container">
+        <form action="#" method="POST">
+            {% csrf_token %}
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Nome</th>
+                        <th scope="col">Data Empréstimo</th>
+                        <th scope="col">Data Devolução</th>
+                        <th scope="col">Duração</th>
+                        <th scope="col">Devolver</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for livro in livros_emprestados %}
+                    <tr>
+                        <th scope="row">{{ livro.id }}</th>
+                        <td>{{livro.nome}}</td>
+                        <td>{{livro.data_emprestimo}}</td>
+                        <td>{{livro.data_devolucao}}</td>
+                        <td>{{livro.data_emprestimo|calcula_duracao:livro.data_devolvido}} dias</td>
+                        <td><a class="form-control" href="{% url 'devolucao' %}">Devolver</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </form>
+    </div>
+{% endblock %}

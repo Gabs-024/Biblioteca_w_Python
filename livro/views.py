@@ -1,5 +1,8 @@
+from django.views.generic.list import ListView
+from django.views.generic.detail import DetailView
 from django.shortcuts import render
 
+from livro import models
 from emprestimo.models import Emprestimo
 from livro.models import Livro
 from usuario.models import Usuario
@@ -8,24 +11,15 @@ from usuario.models import Usuario
 # para acessar tal pagina esta de acordo.
 
 
-def home(request):
-    if request.session.get('usuario'):
-        livros = Livro.objects.all(),
-        usuario = Usuario.objects.get(id = request.session['usuario']),
-        emprestimos = Emprestimo.objects.filter(livro = livro),
-        livros_emprestar = Livros.objects.filter(usuario = usuario).filter(emprestado = False),
-        return render(request, 'home.html', {'livros': livros,
-                                             'emprestimos': emprestimos,
-                                             'usuario_logado': request.session.get('usuario'),
-                                             'id_livro': id,
-                                             'livros_emprestar': livros_emprestar})
+class ListaLivros(ListView):
+    model = models.Livro
+    template_name = '/home.html'
+    context_object_name = 'livros'
+    paginated_by = '9'
     
-def detalhes(request, id):
-    if request.session.get('usuario'):
-        livros = Livro.objects.get(id = id)
-        if request.session.get('usuario') == livros.usuario.id:
-            return render(request, 'detalhe.html', {'livro': livros})
-        else:
-            ...
+class DetalhesLivro(DetailView):
+    model = models.Livro
+    template_name = 'templates/detalhes.html'
+    context_object_name = 'livros'
 
 # Criar condição para exibir em data de devolvido se ainda estiver em uso.

@@ -6,7 +6,7 @@
     <div class="row">
         {% for livro in livros %}
         <div class="card" style="width: 18rem;">
-            <img src="..." class="card-img-top" alt="...">
+            <img src="{{livro.img.url}}" class="card-img-top" alt="capa">
             <div class="card-body">
                 <h5 class="card-title">{{livro.nome}}</h5>
                 <h6 class="card-subtitle mb-2 text-muted">{{livro.autor}}</h6>

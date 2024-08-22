@@ -13,10 +13,14 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 from django.contrib.messages import constants
 import os
 from pathlib import Path
+from dotenv import load_dotenv
+
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+load_dotenv(dotenv_path=os.path.join(BASE_DIR, 'enviroment.env'))
 
 
 # Quick-start development settings - unsuitable for production
@@ -42,11 +46,14 @@ INSTALLED_APPS = [
     "livro",
     "usuario",
     "emprestimo",
+    "devolucao",
     "crispy_forms",
-    "crispy_bootstrap4",
+    "crispy_bootstrap5",
 ]
 
-CRISPY_TEMPLATE_PACK = 'bootstrap4'
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+
+CRISPY_TEMPLATE_PACK = 'bootstrap5'
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -124,7 +131,14 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = "static/"
+STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'templates/static')
+]
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
 
 MESSAGE_TAGS = {
     constants.DEBUG: 'alert-info',
