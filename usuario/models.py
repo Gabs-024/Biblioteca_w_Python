@@ -8,11 +8,11 @@ class Usuario(models.Model):
     matricula = models.CharField(max_length=11)
     data_nascimento = models.DateField()
     email = models.CharField(max_length=50)
-    numero = models.CharField(max_length=5)
+    numero = models.CharField(max_length=11)
     ativo = models.BooleanField(default=False)
 
     def __str__(self):
-        return f'{self.nome}'
+        return self.matricula
 
     def clean(self):
         error_messages = {}
@@ -27,7 +27,7 @@ class Usuario(models.Model):
             if matricula_salva is not None and self.pk != perfil.pk:
                 error_messages['matricula'] = 'Matricula já cadastrada.'
         
-        if re.search(r'[^0=9]', self.matricula) or len(self.matricula) != 11:
+        if len(self.matricula) != 11:
             error_messages['matricula'] = 'Matrícula inválida.'
 
         if error_messages:
