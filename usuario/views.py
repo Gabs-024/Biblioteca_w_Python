@@ -3,9 +3,9 @@ from django.views import View
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-import copy
+from django.contrib.auth.forms import AuthenticationForm
 
-from . import models
+from .models import Usuario
 from . import forms
 
 class BasePerfil(View):
@@ -17,7 +17,7 @@ class BasePerfil(View):
         self.perfil = None
 
         if self.request.user.is_authenticated:
-            self.perfil = models.Usuario.objects.filter(
+            self.perfil = Usuario.objects.filter(
                 usuario=self.request.user
             ).first()
 
@@ -70,6 +70,10 @@ class Cadastrar(BasePerfil):
         email = self.userform.cleaned_data.get('email')
         first_name = self.userform.cleaned_data.get('first_name')
         last_name = self.userform.cleaned_data.get('last_name')
+
+        telefone = self.perfilform.cleaned_data.get('telefone')
+        matricula = self.perfilform.cleaned_data.get('matricula')
+        data_nascimento = self.perfilform.cleaned_data.get('data_nascimento')
         
         if self.request.user.is_authenticated:
             usuario = get_object_or_404(
@@ -86,16 +90,22 @@ class Cadastrar(BasePerfil):
             usuario.last_name = last_name
             usuario.save()
 
-            self.perfilform.cleaned_data['email'] = email
-            self.perfilform.cleaned_data['nome'] = f"{first_name} {last_name}"
 
             if not self.perfil:
-                self.perfilform.cleaned_data['usuario'] = usuario
-                perfil = models.Perfil(**self.perfilform.cleaned_data)
+                perfil = Usuario(
+                    nome=f"{first_name} {last_name}",
+                    email=email,
+                    telefone=telefone,
+                    matricula=matricula,
+                    data_nascimento=data_nascimento
+                )
                 perfil.save()
             else:
-                perfil = self.perfilform.save(commit=False)
-                perfil.usuario = usuario
+                self.perfil.nome = f"{first_name} {last_name}"
+                self.perfil.email = email
+                self.perfil.numero = telefone
+                self.perfil.matricula = matricula
+                self.perfil.data_nascimento = data_nascimento
                 perfil.save()
 
         else:
@@ -103,11 +113,14 @@ class Cadastrar(BasePerfil):
             usuario.set_password(password)
             usuario.save()
 
-            self.perfilform.cleaned_data['email'] = email
-            self.perfilform.cleaned_data['nome'] = f"{first_name} {last_name}"
-
-            perfil = self.perfilform.save(commit=False)
-            perfil.usuario = usuario
+            perfil = Usuario(
+                usuario=usuario,
+                nome=f"{first_name} {last_name}",
+                email=email,
+                telefone=telefone,
+                matricula=matricula,
+                data_nascimento=data_nascimento
+            )
             perfil.save()
 
         if password:
@@ -133,38 +146,35 @@ class Cadastrar(BasePerfil):
 class Atualizar(View):
     ...
 
-class Login(View):
-    def post(self, *args, **kwargs):
-        form = forms.PerfilForm(self.request.POST)
+def user_login(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        print(username, password)
 
-        if not form.is_valid():
-            messages.error(
-                self.request,
-                'Usuário e/ou senha inválidos'
-            )
-            return redirect('usuario:cadastro')
-        
-        username = form.cleaned_data.get('matricula')
-        password = form.cleaned_data.get('password')
+        try:
+            user = User.objects.get(username=username)
+            print(f"Usuário encontrado no banco de dados: {user}")
+        except User.DoesNotExist:
+            print("Usuário não encontrado no banco de dados.")
+            user = None
 
-        usuario = authenticate(
-            self.request, username=username, password=password)
-        
-        if not usuario:
-            messages.error(
-                self.request,
-                'Usuário e/ou senha inválidos'
-            )
-            return redirect('usuario:cadastro')
+        user = authenticate(request, username=username, password=password)
+        print(user)
 
-        login(self.request, user=usuario)
+        if user is not None:
+            login(request, user)
+            messages.success(request, 'Login realizado com sucesso!')
+            print('Login realizado com sucesso!')
+            return redirect('livro:home')
+        else:
+            messages.error(request, 'Nome de usuário ou senha incorretos.')
+            print('Login ou senha incorretos.')
 
-        messages.success(
-            self.request,
-            'Login realizado com sucesso!'
-        )
-        
-        return redirect('livro:home')
+    else:
+        messages.error(request, 'Nome de usuário ou senha incorretos.')
+
+    return render(request, 'usuario/cadastro.html')
 
 class Logout(View):
     def get(self, *args, **kwargs):

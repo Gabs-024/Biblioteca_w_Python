@@ -9,7 +9,7 @@ class Usuario(models.Model):
     matricula = models.CharField(max_length=11)
     data_nascimento = models.DateField()
     email = models.CharField(max_length=50)
-    numero = models.CharField(max_length=11)
+    telefone = models.CharField(max_length=11)
 
     def __str__(self):
         return self.nome
