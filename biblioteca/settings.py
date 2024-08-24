@@ -46,7 +46,6 @@ INSTALLED_APPS = [
     "livro",
     "usuario",
     "emprestimo",
-    "devolucao",
     "crispy_forms",
     "crispy_bootstrap5",
 ]
@@ -156,3 +155,11 @@ SESSION_SAVE_EVERY_REQUEST = False
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+LOGIN_REDIRECT_URL = 'livros:home'
+LOGIN_URL = 'usuario:login'      
+LOGOUT_REDIRECT_URL = 'usuario:login'
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+]

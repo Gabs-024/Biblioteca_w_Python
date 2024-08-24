@@ -4,15 +4,15 @@ from django.contrib.auth.models import User
 from django.forms import ValidationError
 
 class Usuario(models.Model):
-    nome = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name='Usuário')
+    usuario = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name='Usuário')
+    nome = models.CharField(max_length=50)
     matricula = models.CharField(max_length=11)
     data_nascimento = models.DateField()
     email = models.CharField(max_length=50)
     numero = models.CharField(max_length=11)
-    ativo = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.matricula
+        return self.nome
 
     def clean(self):
         error_messages = {}
@@ -32,3 +32,7 @@ class Usuario(models.Model):
 
         if error_messages:
             raise ValidationError(error_messages)
+        
+    class Meta:
+        verbose_name = 'Usuário'
+        verbose_name_plural = 'Usuários'

@@ -1,6 +1,7 @@
 {% extends "base.html" %}
+{% load filters %}
 
-{% block 'conteudo' %}
+{% block conteudo %}
 
 <div style="text-align: center;" class="container">
     <div class="intro">
@@ -19,6 +20,12 @@
             Disponível
             {% endif %}
         </div>
+        <form action="{% url 'emprestimo:emprestimo' %}" method="POST" style="display:inline;">
+            {% csrf_token %}
+            <input type="hidden" name="matricula" value="{{ usuario.matricula }}">
+            <input type="hidden" name="id" value="{{ livro.id }}">
+            <button type="submit" class="btn btn-primary" style="margin-top: 1em;">Alugar</button>
+        </form> 
     </div>
     <hr>
     <div class="historico_title">
@@ -36,13 +43,13 @@
                 </tr>
             </thead>
             <tbody>
-                {% for i in emprestimos %}
+                {% for emprestimo in emprestados %}
                 <tr>
-                    <th scope="row">{{ i.id }}</th>
-                    <td>{{i.nome_estudante}}</td>
-                    <td>{{i.data_emprestimo}}</td>
-                    <td>{{i.data_devolvido}}</td>
-                    <td>{{i.data_emprestimo|calcula_duracao:i.data_devolvido}} dias</td>
+                    <th scope="row">{{ emprestimo.id }}</th>
+                    <td>{{emprestimo.nome_estudante}}</td>
+                    <td>{{emprestimo.data_emprestimo}}</td>
+                    <td>{{emprestimo.data_devolvido}}</td>
+                    <td>{{emprestimo.data_devolvido|calcula_duracao:emprestimo.data_emprestimo}}</td>
                 </tr>
                 {% endfor %}
             </tbody>
