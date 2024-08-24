@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 
-{% block 'conteudo' %}
+{% block conteudo %}
 <div class="container">
-    <form action="{% url 'registrar_emprestimo' %}" method="POST">
+    <form action="{% url 'emprestimo:emprestimo' %}" method="POST">
         {% csrf_token %}
         <table>
             {{ emprestimo_form.as_table }}

@@ -1,7 +1,7 @@
 from django import forms
-from . import models
+from .models import Emprestimo
 
 class EmprestimoForm(forms.ModelForm):
     class Meta:
-        model = models.Emprestimo
+        model = Emprestimo
         fields = '__all__'

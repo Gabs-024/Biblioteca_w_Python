@@ -17,7 +17,9 @@ class Emprestimo(models.Model):
     livro_emprestar = models.ForeignKey(Livro, on_delete=models.DO_NOTHING, null=True, blank=True)
     data_emprestimo = models.DateTimeField(default=timezone.now)
     data_devolucao = models.DateTimeField(blank=True, null=True)
-
+    data_devolvido = models.DateTimeField(default=timezone.now)
+    entrega_atrasada = models.BooleanField(default=False)
+    taxa = models.CharField(default="R$0,00", max_length=8)
     prazo = 3
 
     def save(self, *args, **kwargs):

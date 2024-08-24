@@ -1,7 +1,8 @@
 {% load static %}
 
 <nav class="navbar navbar-dark bg-primary navbar-expand-lg">
-    <a class="navbar-brand" href="{% url 'produto:lista' %}">Biblioteca da Meia-Noite</a>
+    <a class="navbar-brand" href="{% url 'livro:home' %}">Biblioteca da Meia-Noite</a>
+    <h6>Seja bem vindo(a) {{ request.user.first_name }}</h6>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -10,7 +11,7 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ml-auto">
             <li class="nav-item active">
-                <a class="nav-link" href="{% url 'livro:lista' %}">Home <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="{% url 'livro:home' %}">Home <span class="sr-only">(current)</span></a>
             </li>
             {% if request.user.is_authenticated %}
             <li class="nav-item dropdown">
@@ -19,14 +20,14 @@
                     Conta
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="{% url 'livros:meus_emprestimos' %}">Meus livros</a>
-                    <a class="dropdown-item" href="{% url 'usuario:atualizar' %}">Atualizar perfil</a>
+                    <a class="dropdown-item" href="{% url 'emprestimo:emprestados' %}">Meus livros</a>
+                    <a class="dropdown-item" href="{% url 'usuario:cadastro' %}">Atualizar perfil</a>
                     <a class="dropdown-item" href="{% url 'usuario:logout' %}">Sair</a>
                 </div>
             </li>
             {% else %}
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'usuario:cadastrar' %}">Entrar</a>
+                <a class="nav-link" href="{% url 'usuario:cadastro' %}">Entrar</a>
             </li>
             {% endif %}
             {% comment %} {% if request.session.carrinho %}
@@ -42,9 +43,9 @@
             </li>
             {% endif %} {% endcomment %}
         </ul>
-        <form method="GET" action="{% url 'produto:busca' %}" class="form-inline my-2 my-lg-0">
+        {% comment %} <form method="GET" action="{% url 'produto:busca' %}" class="form-inline my-2 my-lg-0">
             <input class="form-control mr-sm-2" name="termo" value="{{ request.GET.termo }}" type="search" placeholder="Pesquisar" aria-label="Search">
             <button class="btn btn-secondary my-2 my-sm-0" type="submit">Pesquisar</button>
-        </form>
+        </form> {% endcomment %}
     </div>
 </nav>

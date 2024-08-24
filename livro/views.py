@@ -1,25 +1,33 @@
-from django.views.generic.list import ListView
-from django.views.generic.detail import DetailView
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, redirect
+from django.views import View
+from django.views.generic import ListView, DetailView
+from django.contrib.auth.decorators import login_required
 
-from livro import models
+from emprestimo.mixins import EmprestimoMixin
 from emprestimo.models import Emprestimo
-from livro.models import Livro
-from usuario.models import Usuario
+from emprestimo.views import ListarEmprestimos
+from .models import Livro
+
 
 # confirmar se a verificação de autenticado ou nao 
 # para acessar tal pagina esta de acordo.
 
-
 class ListaLivros(ListView):
-    model = models.Livro
-    template_name = '/home.html'
+    model = Livro
+    template_name = 'livro/home.html'
     context_object_name = 'livros'
     paginated_by = '9'
     
-class DetalhesLivro(DetailView):
-    model = models.Livro
-    template_name = 'templates/detalhes.html'
-    context_object_name = 'livros'
+class DetalhesLivro(EmprestimoMixin, DetailView):
+    model = Livro
+    template_name = 'livro/detalhes.html'
+    context_object_name = 'livro'
 
-# Criar condição para exibir em data de devolvido se ainda estiver em uso.
+    def get_object(self):
+        return get_object_or_404(Livro, id=self.kwargs['pk'])
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        emprestimos = self.get_emprestimos()
+        context['emprestados'] = emprestimos
+        return context

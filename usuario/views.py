@@ -9,12 +9,10 @@ from . import models
 from . import forms
 
 class BasePerfil(View):
-    template_name = 'usuario/criar.html'
+    template_name = 'usuario/cadastro.html'
 
     def setup(self, *args, **kwargs):
         super().setup(*args, **kwargs)
-
-        self.carrinho = copy.deepcopy(self.request.session.get('carrinho'))
 
         self.perfil = None
 
@@ -67,34 +65,33 @@ class Cadastrar(BasePerfil):
             )
             return self.renderizar
         
-        nome = self.userform.cleaned_data.get('nome')
-        matricula = self.userform.cleaned_data.get('matricula')
+        username = self.userform.cleaned_data.get('username')
+        password = self.userform.cleaned_data.get('password')
         email = self.userform.cleaned_data.get('email')
-        telefone = self.userform.cleaned_data.get('telefone')
-        senha = self.userform.cleaned_data.get('senha')
-        confirma_senha = self.userform.cleaned_data.get('confirma_senha')
+        first_name = self.userform.cleaned_data.get('first_name')
+        last_name = self.userform.cleaned_data.get('last_name')
         
         if self.request.user.is_authenticated:
             usuario = get_object_or_404(
                 User, 
-                nome=self.request.user.nome
+                username=self.request.user.username
             )
-            usuario.nome = nome
+            usuario.username = username
             
-            if senha:
-                usuario.set_senha(senha)
+            if password:
+                usuario.set_password(password)
 
             usuario.email = email
-            usuario.matricula = matricula
-            usuario.telefone = telefone
-            usuario.senha = senha
-            usuario.confirma_senha = confirma_senha
-
+            usuario.first_name = first_name
+            usuario.last_name = last_name
             usuario.save()
+
+            self.perfilform.cleaned_data['email'] = email
+            self.perfilform.cleaned_data['nome'] = f"{first_name} {last_name}"
 
             if not self.perfil:
                 self.perfilform.cleaned_data['usuario'] = usuario
-                perfil = models.Usuario(**self.perfilform.cleaned_data)
+                perfil = models.Perfil(**self.perfilform.cleaned_data)
                 perfil.save()
             else:
                 perfil = self.perfilform.save(commit=False)
@@ -103,25 +100,27 @@ class Cadastrar(BasePerfil):
 
         else:
             usuario = self.userform.save(commit=False)
-            usuario.set_senha(senha)
+            usuario.set_password(password)
             usuario.save()
+
+            self.perfilform.cleaned_data['email'] = email
+            self.perfilform.cleaned_data['nome'] = f"{first_name} {last_name}"
 
             perfil = self.perfilform.save(commit=False)
             perfil.usuario = usuario
             perfil.save()
 
-        if senha:
+        if password:
             autentica = authenticate(
                 self.request,
-                nome=usuario,
-                senha=senha
+                username=usuario,
+                password=password
             )
             if autentica:
                 login(self.request, 
-                    user=usuario
+                      user=usuario
                 )
         
-        # self.request.session['carrinho'] = self.carrinho
         self.request.session.save()
 
         messages.success(
@@ -129,25 +128,27 @@ class Cadastrar(BasePerfil):
             'Login realizado com sucesso!'
         )
 
-        return redirect('lista:livros')
+        return redirect('livro:home')
 
 class Atualizar(View):
     ...
 
 class Login(View):
     def post(self, *args, **kwargs):
-        nome = self.request.POST.get('nome')
-        senha = self.request.POST.get('senha')
+        form = forms.PerfilForm(self.request.POST)
 
-        if not nome or not senha:
+        if not form.is_valid():
             messages.error(
                 self.request,
                 'Usuário e/ou senha inválidos'
             )
             return redirect('usuario:cadastro')
         
+        username = form.cleaned_data.get('matricula')
+        password = form.cleaned_data.get('password')
+
         usuario = authenticate(
-            self.request, nome=nome, senha=senha)
+            self.request, username=username, password=password)
         
         if not usuario:
             messages.error(
@@ -163,12 +164,10 @@ class Login(View):
             'Login realizado com sucesso!'
         )
         
-        return redirect('lista:livros')
+        return redirect('livro:home')
 
 class Logout(View):
     def get(self, *args, **kwargs):
-        lista = copy.deepcopy(self.request.session.get('lista'))
         logout(self.request)
-        self.request.session['lista'] = lista
         self.request.session.save()
-        return redirect('lista:livros')
+        return redirect('usuario:cadastro')

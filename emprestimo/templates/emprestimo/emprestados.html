@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load filters %}
+
+{% block conteudo %}
+<div class="container">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Nome</th>
+                <th scope="col">Data Empréstimo</th>
+                <th scope="col">Data Devolução</th>
+                <th scope="col">Disponibilidade</th>
+                <th scope="col">Devolver</th>
+            </tr>
+        </thead>
+        <tbody>
+            <form action="{% url 'emprestimo:devolver' %}" method="POST">
+                {% csrf_token %} 
+                {% for livro in emprestados %}
+                <tr>
+                    <th scope="row">{{ livro.id }}</th>
+                    <td>{{livro.nome_estudante}}</td>
+                    <td>{{livro.data_emprestimo}}</td>
+                    <td>{{livro.data_devolucao}}</td>
+                    <td>            
+                        {% if livro.emprestado %}
+                            <h6>Indisponível</h6>
+                        {% else %}
+                            <h6>Disponível</h6>
+                        {% endif %}
+                    </td>
+                    <input type="hidden" name="id" value="{{ livro.id }}">
+                    <input type="hidden" name="livro_emprestar_id" value="{{ livro.livro_emprestar_id }}">
+                    <td>
+                        <button type="submit" class="btn btn-secondary">Devolver</button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </form>
+        </tbody>
+    </table>
+</div>
+{% endblock %}
