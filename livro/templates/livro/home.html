@@ -5,26 +5,23 @@
 <div class="row">
     <div class="col-lg-12">
         <div class="card-columns">
-            <form action="{% url 'emprestimo:emprestimo' %}" method="POST">
+            <form action="{% url 'emprestimo:meu_emprestimo:registrar' %}" method="POST">
                 {% csrf_token %}    
                 {% for livro in livros %}
                 <div class="card" style="width: 18rem;">
                     <img src="{{livro.img.url}}" class="card-img-top" alt="capa">
                     <div class="card-body">
-                        <h5 class="card-title">{{livro.nome}}</h5>
+                        <h5 class="card-title">{{livro.titulo}}</h5>
                         <h6 class="card-subtitle mb-2 text-muted">{{livro.autor}}</h6>
                         {% if livro.emprestado %}
                             <h6>Indisponível</h6>
                         {% else %}
                             <h6>Disponível</h6>
                         {% endif %}
-                        <form action="{% url 'emprestimo:emprestimo' %}" method="POST" style="display:inline;">
-                            {% csrf_token %}
-                            <input type="hidden" name="matricula" value="{{ usuario.matricula }}">
-                            <input type="hidden" name="id" value="{{ livro.id }}">
-                            <button type="submit" class="btn btn-primary">Alugar</button>
-                            <a href="{% url 'livro:detalhes' livro.id %}" class="btn btn-info">Mais detalhes</a>
-                        </form>  
+                        <input type="hidden" name="nome_estudante" value="{{ request.user.id }}">
+                        <input type="hidden" name="id" value="{{ livro.id }}">
+                        <button type="submit" class="btn btn-primary">Alugar</button>
+                        <a href="{% url 'livro:detalhes' livro.id %}" class="btn btn-info">Mais detalhes</a>
                     </div>
                 </div>
                 {% endfor %}

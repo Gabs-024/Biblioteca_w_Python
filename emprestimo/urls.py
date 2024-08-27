@@ -1,11 +1,10 @@
-from django.urls import path
+from django.urls import include, path
 from . import views
 
 app_name = 'emprestimo'
 
-
 urlpatterns = [
-    path('registrar_emprestimo/', views.registrar_emprestimo, name="emprestimo"),
-    path('meus_emprestimos/', views.ListarEmprestimos.as_view(), name="emprestados"),
-    path('devolver/', views.devolver, name="devolver"),
+    path('', views.MeusEmprestimos.as_view(), name='meus_emprestimos'),
+    path('emprestar/', include('emprestar.urls', namespace='emprestar')),
+    path('devolver/', include('devolver.urls', namespace='devolver')),
 ]
