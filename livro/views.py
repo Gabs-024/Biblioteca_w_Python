@@ -3,9 +3,9 @@ from django.views import View
 from django.views.generic import ListView, DetailView
 from django.contrib.auth.decorators import login_required
 
-from emprestimo.mixins import EmprestimoMixin
+from emprestimo.mixins import TodosEmprestimosMixin
 from emprestimo.models import Emprestimo
-from emprestimo.views import ListarEmprestimos
+from livro.mixins import HistoricoLivroMixin
 from .models import Livro
 
 
@@ -18,7 +18,7 @@ class ListaLivros(ListView):
     context_object_name = 'livros'
     paginated_by = '9'
     
-class DetalhesLivro(EmprestimoMixin, DetailView):
+class DetalhesLivro(TodosEmprestimosMixin, HistoricoLivroMixin, DetailView):
     model = Livro
     template_name = 'livro/detalhes.html'
     context_object_name = 'livro'
@@ -28,6 +28,6 @@ class DetalhesLivro(EmprestimoMixin, DetailView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        emprestimos = self.get_emprestimos()
-        context['emprestados'] = emprestimos
+        historico = self.get_historico_emprestimos()
+        context[''] = historico
         return context

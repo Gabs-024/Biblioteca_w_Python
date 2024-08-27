@@ -7,7 +7,7 @@
         <thead>
             <tr>
                 <th scope="col">ID</th>
-                <th scope="col">Nome</th>
+                <th scope="col">Livro</th>
                 <th scope="col">Data Empréstimo</th>
                 <th scope="col">Data Devolução</th>
                 <th scope="col">Disponibilidade</th>
@@ -15,22 +15,32 @@
             </tr>
         </thead>
         <tbody>
-            <form action="{% url 'emprestimo:devolver' %}" method="POST">
+            <form action="{% url 'emprestimo:devolucao:devolver' %}" method="POST">
                 {% csrf_token %} 
-                {% for livro in emprestados %}
+                {% for livro in emprestimos %}
                 <tr>
                     <th scope="row">{{ livro.id }}</th>
-                    <td>{{livro.nome_estudante}}</td>
-                    <td>{{livro.data_emprestimo}}</td>
-                    <td>{{livro.data_devolucao}}</td>
+                    <td><a href="{% url 'livro:detalhes' livro.livro_emprestar_id %}" class="detalhe_livro">{{ livro.livro_emprestar_id }}
+                    </a>
+                    </td>
+                    <td>{{ livro.data_emprestimo }}</td>
+                    <td>
+                        {% if livro.data_devolucao %}
+                            {{ livro.data_devolucao }}
+                        {% else %}
+                            <h5>X</h5>
+                        {% endif %}
+                        </td>
                     <td>            
-                        {% if livro.emprestado %}
-                            <h6>Indisponível</h6>
+                        {% if not livro.data_devolucao %}
+                            <h6>Emprestado</h6>
                         {% else %}
                             <h6>Disponível</h6>
                         {% endif %}
                     </td>
                     <input type="hidden" name="id" value="{{ livro.id }}">
+                    <input type="hidden" name="first_name" value="{{ livro.nome_estudante }}">
+                    <input type="hidden" name="nome_estudante" value="{{ request.user.id }}">
                     <input type="hidden" name="livro_emprestar_id" value="{{ livro.livro_emprestar_id }}">
                     <td>
                         <button type="submit" class="btn btn-secondary">Devolver</button>

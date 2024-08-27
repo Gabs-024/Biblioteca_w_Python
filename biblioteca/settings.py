@@ -46,6 +46,8 @@ INSTALLED_APPS = [
     "livro",
     "usuario",
     "emprestimo",
+    "emprestar",
+    "devolver",
     "crispy_forms",
     "crispy_bootstrap5",
 ]

@@ -29,7 +29,7 @@ class BasePerfil(View):
                 ),
                 'perfilform': forms.PerfilForm(
                     data = self.request.POST or None,
-                    instance = self.request.user,
+                    instance = self.perfil,
                 )
             }
         else:
@@ -150,17 +150,13 @@ def user_login(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
-        print(username, password)
 
         try:
             user = User.objects.get(username=username)
-            print(f"Usuário encontrado no banco de dados: {user}")
         except User.DoesNotExist:
-            print("Usuário não encontrado no banco de dados.")
             user = None
 
         user = authenticate(request, username=username, password=password)
-        print(user)
 
         if user is not None:
             login(request, user)
