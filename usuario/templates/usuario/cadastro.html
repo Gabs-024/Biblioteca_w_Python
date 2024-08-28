@@ -7,28 +7,8 @@
 
 <div class="row">
 
-    {% if not request.user.is_authenticated %}
     <div class="col-lg mt-3">
-        <h4>Login</h4>
-        <p>Bem vindo de volta!</p>
-        <form method="POST" action={% url 'usuario:login' %}>
-            {% csrf_token %}
-            <div class="form-group">
-                <label for="InputUsuario1">Matrícula</label>
-                <input type="text" class="form-control" id="exampleInputUsuario1" name="username" placeholder="Digite sua matrícula">
-            </div>
-            <div class="form-group">
-                <label for="exampleInputPassword1">Senha</label>
-                <input type="password" class="form-control" id="exampleInputPassword1" name="password" placeholder="Digite sua senha">
-            </div>
-            <button type="submit" class="btn btn-primary btn-block btn-lg">ENTRAR</button>
-        </form>
-    </div>
-
-    {% endif %}
-
-    <div class="col-lg mt-3">
-
+        
         {% block titulocadastro %}
         <h4>Cadastro</h4>
         <p>Para se cadastrar, preencha o formulário com suas informações.</p>
@@ -36,8 +16,14 @@
 
         <form method="POST">
             {% csrf_token %}
-            {{ userform | crispy }}
-            {{ perfilform | crispy }}
+            {{ userform.username|as_crispy_field }}
+            {{ userform.first_name|as_crispy_field }}
+            {{ userform.last_name|as_crispy_field }}
+            {{ perfilform.data_nascimento|as_crispy_field }}
+            {{ userform.email|as_crispy_field }}
+            {{ perfilform.telefone|as_crispy_field }}
+            {{ userform.password|as_crispy_field }}
+            {{ userform.password2|as_crispy_field }}
             <div class="row">
                 <div class="col">
                     <button type="submit" 

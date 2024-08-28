@@ -6,7 +6,7 @@ class PerfilForm(forms.ModelForm):
     class Meta:
         model = Usuario
         fields = '__all__'
-        exclude = ('usuario', 'nome', 'email', )
+        exclude = ('usuario', 'nome', 'email', 'matricula')
 
 class UserForm(forms.ModelForm):
     password = forms.CharField(
