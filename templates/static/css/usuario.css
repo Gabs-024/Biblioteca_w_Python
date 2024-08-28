@@ -1,0 +1,73 @@
+body {
+    background: linear-gradient(rgba(5, 5, 5, 0.7), rgba(5, 5, 5, 0.7)), url("/media/1649816957059.jpeg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed; 
+    background-position: center; 
+    background-color: rgba(255, 255, 255, 0.7);
+}
+
+.card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    background-color: rgba(255, 255, 255, 0.92);
+}
+
+.card-body {
+    width: 100%;
+}
+
+.card-title, .card-text {
+    display: flex;
+    justify-content: center;
+}
+
+.boasvindas {
+    color: white;
+    display: flex;
+    justify-content: right;
+    width: 100%;
+}
+
+#botao {
+    background-color: #40A718;
+    color: white;
+    margin-top: 1em;
+}
+
+.linha {
+    width: 100%;
+    flex-direction: row;
+    display: flex;
+}
+
+#nome, #sobrenome {
+    width: 49%;
+}
+
+form {
+    max-width: 600px;
+    margin: 0 auto;   
+    padding: 10px;    
+}
+
+.linha1, .contato {
+    display: flex;        
+    justify-content: space-between; 
+    gap: 10px;                
+    margin-bottom: 15px;     
+}
+
+.campo {
+    flex: 1;
+}
+
+.linha1 .campo {
+    flex: 1 1 20%;
+}
+
+.contato .campo {
+    flex: 1 1 50%;
+}
