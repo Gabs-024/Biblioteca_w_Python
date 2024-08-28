@@ -1,18 +1,16 @@
 {% load static %}
 
-<footer class="container-fluid bg-primary">
-    <div class="container text-light">
-        <div class="row">
-            <div class="col">
-                <div class="p-1">
-                    <span class="align-middle p-1">Feito com Django</span>
-                </div>
-            </div>
-            <div class="col">
-                <div class="p-1 text-right">
-                    <span class="align-middle p-1">Por Gabriel Ferreira</span>
-                </div>
-            </div>
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+{% endblock %}
+
+<footer id="fixed-footer" class="container_geral">
+    <div class="container">
+        <div class="texto_django" style="color: white; text-align: center">
+            <b>Feito com Django</b>
+        </div>
+        <div class="texto_autor" style="color: white">
+            <b>Por Gabriel Ferreira</b>
         </div>
     </div>
 </footer>

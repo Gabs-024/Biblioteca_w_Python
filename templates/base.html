@@ -1,6 +1,9 @@
+{% load static %}
+{% block extra2_css %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+{% endblock %}
 <!doctype html>
 <html lang="en">
-
 <head>
 {% include 'parciais/_head.html' %}
     <title>{% block titulo %}{% endblock %} Projeto Biblioteca com Python</title>
@@ -11,8 +14,10 @@
 {% include 'parciais/_navbar.html' %}
 
     <main class="container mt-4 mb-4">
-        {% comment %} {% include 'parciais/_messages.html' %} {% endcomment %}
-        {% block conteudo %}{% endblock %}
+        <div class="content">
+            {% include 'parciais/_messages.html' %}
+            {% block conteudo %}{% endblock %}
+        </div>
     </main>
 
 {% include 'parciais/_footer.html' %}
