@@ -21,13 +21,13 @@
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" href="{% url 'emprestimo:meus_emprestimos' %}">Meus livros</a>
-                    <a class="dropdown-item" href="{% url 'usuario:cadastro' %}">Atualizar perfil</a>
+                    <a class="dropdown-item" href="{% url 'usuario:cadastrar' %}">Atualizar perfil</a>
                     <a class="dropdown-item" href="{% url 'usuario:logout' %}">Sair</a>
                 </div>
             </li>
             {% else %}
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'usuario:cadastro' %}">Entrar</a>
+                <a class="nav-link" href="{% url 'usuario:login' %}">Entrar</a>
             </li>
             {% endif %}
             {% comment %} {% if request.session.carrinho %}

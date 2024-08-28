@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+
+{% block titulo %}Cadastro | {% endblock %}
+
+{% block conteudo %}
+
+<div class="row">
+
+    {% if not request.user.is_authenticated %}
+    
+    <div class="col-lg mt-3">
+        <h4>Login</h4>
+        <p>Bem vindo de volta!</p>
+        <form method="POST" action={% url 'usuario:login' %}>
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="InputUsuario1">Usuário</label>
+                <input type="text" class="form-control" id="exampleInputUsuario1" name="username" placeholder="Digite seu username">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputPassword1">Senha</label>
+                <input type="password" class="form-control" id="exampleInputPassword1" name="password" placeholder="Digite sua senha">
+            </div>
+            <button type="submit" class="btn btn-primary btn-block btn-lg">ENTRAR</button>
+        </form>
+        <div class="col-lg mt-3">
+            <p>Ainda não possui cadastro? <a href="{% url 'usuario:cadastrar' %}">Clique aqui</a></p>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

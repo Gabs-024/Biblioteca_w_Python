@@ -3,7 +3,8 @@ from django.views import View
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from django.contrib.auth.forms import AuthenticationForm
+
+from utils.geradorMatricula import gerar_matricula
 
 from .models import Usuario
 from . import forms
@@ -41,6 +42,7 @@ class BasePerfil(View):
                     data = self.request.POST or None
                 )
             }
+
         self.userform = self.contexto['userform']
         self.perfilform = self.contexto['perfilform']
 
@@ -54,7 +56,7 @@ class BasePerfil(View):
         )
 
     def get(self,*args, **kwargs):
-        return self.renderizar
+        return self.renderizar  
     
 class Cadastrar(BasePerfil):
     def post(self, *args, **kwargs):
@@ -72,7 +74,6 @@ class Cadastrar(BasePerfil):
         last_name = self.userform.cleaned_data.get('last_name')
 
         telefone = self.perfilform.cleaned_data.get('telefone')
-        matricula = self.perfilform.cleaned_data.get('matricula')
         data_nascimento = self.perfilform.cleaned_data.get('data_nascimento')
         
         if self.request.user.is_authenticated:
@@ -96,15 +97,14 @@ class Cadastrar(BasePerfil):
                     nome=f"{first_name} {last_name}",
                     email=email,
                     telefone=telefone,
-                    matricula=matricula,
+                    matricula=gerar_matricula(),
                     data_nascimento=data_nascimento
                 )
                 perfil.save()
             else:
                 self.perfil.nome = f"{first_name} {last_name}"
                 self.perfil.email = email
-                self.perfil.numero = telefone
-                self.perfil.matricula = matricula
+                self.perfil.telefone = telefone
                 self.perfil.data_nascimento = data_nascimento
                 perfil.save()
 
@@ -118,7 +118,7 @@ class Cadastrar(BasePerfil):
                 nome=f"{first_name} {last_name}",
                 email=email,
                 telefone=telefone,
-                matricula=matricula,
+                matricula=gerar_matricula(),
                 data_nascimento=data_nascimento
             )
             perfil.save()
@@ -146,15 +146,11 @@ class Cadastrar(BasePerfil):
 class Atualizar(View):
     ...
 
-def user_login(request):
-    if request.method == 'POST':
+class UserLogin(View):
+    template_name = 'usuario/login.html'
+    def post(self, request, *args, **kwargs):
         username = request.POST.get('username')
         password = request.POST.get('password')
-
-        try:
-            user = User.objects.get(username=username)
-        except User.DoesNotExist:
-            user = None
 
         user = authenticate(request, username=username, password=password)
 
@@ -166,14 +162,13 @@ def user_login(request):
         else:
             messages.error(request, 'Nome de usuário ou senha incorretos.')
             print('Login ou senha incorretos.')
-
-    else:
-        messages.error(request, 'Nome de usuário ou senha incorretos.')
-
-    return render(request, 'usuario/cadastro.html')
+            return render(request, self.template_name)
+        
+    def get(self, request, *args, **kwargs):
+        return render(request, self.template_name)
 
 class Logout(View):
     def get(self, *args, **kwargs):
         logout(self.request)
         self.request.session.save()
-        return redirect('usuario:cadastro')
+        return redirect('usuario:login')
