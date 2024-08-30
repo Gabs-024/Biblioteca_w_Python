@@ -1,0 +1,144 @@
+body {
+    background: linear-gradient(rgba(5, 5, 5, 0.7), rgba(5, 5, 5, 0.7)), url("/media/Fundo_Biblioteca.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed; 
+    background-position: center; 
+}
+
+#card_detalhe {
+    height: 100%;
+    width: 100%;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.0); 
+}
+
+.card_hist, .card_detalhe {
+    height: 100%;
+    width: 100%;
+    min-width: 100%;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.0); 
+}
+
+.card-body_detalhe {
+    display: flex;
+    flex-direction: column;
+    width: 95%;
+    border-radius: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 10px;
+    background-color: rgb(245, 245, 245, 0.7);
+    box-shadow: 5px 5px 10px rgba(5, 5, 5, 0.3);
+}
+
+.card-body-hist {
+    gap: 20px; 
+    width: 55rem;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 3em;
+    background-color: rgb(245, 245, 245, 0.7);
+    box-shadow: 5px 5px 10px rgba(5, 5, 5, 0.3);
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.card-text_detalhe {
+    width: 70%;
+}
+
+.capa {
+    width: 100em;
+    height: 30em;
+}
+
+.form_detalhe {
+    margin: 0;
+    display: flex;
+    justify-content: center;
+}
+
+.intro {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    flex-direction: row;
+    padding: 0;
+}
+
+.intro_img {
+    width: 30%;
+}
+
+.intro_text {
+    width: 100em;
+    height: 30em;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.conteudo_intro {
+    height: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    width: 30em;
+    padding-left: 3em;
+}
+
+.detalhe_botao {
+    width: 10em;
+    height: 2.5em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card-title_hist{
+    padding-top: 1em;
+    display: flex;
+    justify-content: center;
+}
+
+.botoes_detalhe {
+    display: flex;
+    justify-content: space-between;
+    padding: 1%;
+}
+
+.botao_card_livro {
+    width: 100%;
+}
+
+.botao_card_livro2 {
+    background-color: #5ccd2f;
+}
+
+.botoes_card_livro {
+    width: 100%;
+    padding-left: 7%;
+    padding-right: 7%;
+    padding-bottom: 7%;
+}
+
+.card_estante {
+    width: 12em;
+}
+
+#foto_capa_estante {
+    width: 10em;
+    height: 15em;
+    padding-top: 10%;
+}
+
+.card_body_estante {
+    padding-top: 10%;
+    padding-left: 10%;
+    padding-right: 10%;
+    padding-bottom: 0;
+}

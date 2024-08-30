@@ -1,65 +1,80 @@
 {% extends "base.html" %}
 {% load filters %}
+{% load static %}
+
+{% block body_class %}home-background{% endblock %}
 
 {% block conteudo %}
-
-<div style="text-align: center;" class="container">
-    <div class="intro">
-        <form action="{% url 'emprestimo:meu_emprestimo:registrar' %}" method="POST" style="display:inline;">
+<div class="detalhe_geral">
+    <div id="card_detalhe" class="card">
+        <div class="card-body_detalhe">
+            <div class="intro">
+            <form class="form_detalhe" action="{% url 'emprestimo:emprestar:registrar' %}" method="POST">
             {% csrf_token %}
-            <div class="intro_img">
-                <img src="{{livro.img.url}}" class="card-img-top" alt="capa">
-            </div>
-            <div class="intro_text">
-                <h1> {{ livro.titulo }} </h1>
-                <h2> {{ livro.autor }} </h2>
-                <h2> {{ livro.categoria }} </h2>
-                <h3> {{ livro.data_cadastro }} </h3>
-                <h3>Status: </h3>
-                {% if livro.emprestado %}
-                Indisponível
-                {% else %}
-                Disponível
-                {% endif %}
-            </div>
-            <input type="hidden" name="nome_estudante" value="{{ request.user.id }}">
-            <input type="hidden" name="id" value="{{ livro.id }}">
-            <button type="submit" class="btn btn-primary" style="margin-top: 1em;">Alugar</button>
-        </form>     
-    </div>
-    <hr>
-    <div class="historico_title">
-        <h3>Histórico: </h3>
-    </div>
-    <div class="historico_info">
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">Último aluno</th>
-                    <th scope="col">Data Empréstimo</th>
-                    <th scope="col">Data retorno</th>
-                    <th scope="col">Duração</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for emprestimo in historico %}
-                <tr>
-                    <th scope="row">{{ emprestimo.id }}</th>
-                    <td>{{emprestimo.nome_estudante}}</td>
-                    <td>{{emprestimo.data_emprestimo}}</td>
-                    <td>
-                        {% if not emprestimo.data_devolucao %}
-                            <p>Em uso</p>
+                <img src="{{livro.img.url}}" class="capa" alt="capa">
+                <div class="intro_text">
+                    <div class="conteudo_intro">
+                        <h1>{{ livro.titulo }} </h1>
+                        <h2>{{ livro.autor }} </h2>
+                        <h4> <b>Categoria:</b> {{ livro.categoria }}</h4>
+                        <h4> <b>Cadastrado em: </b>{{ livro.data_cadastro }}</h4>
+                        <h4><b>Status:</b>  
+                        {% if livro.emprestado %}
+                        Indisponível
                         {% else %}
-                            {{emprestimo.data_devolucao}}
-                        {% endif %} 
-                    </td>
-                    <td>{{emprestimo.data_devolucao|calcula_duracao:emprestimo.data_emprestimo}}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+                        Disponível
+                        {% endif %}
+                        </h4>
+                        <h4><b>Sinopse</b></h4>
+                        <p>{{ livro.descricao }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="botoes_detalhe">
+                <input type="hidden" name="nome_estudante" value="{{ request.user.id }}">
+                <input type="hidden" name="id" value="{{ livro.id }}">
+                <a href="{% url 'livro:home' %}" class="btn botao_voltar">Voltar</a>
+                <button type="submit" id="botao" class=" btn botao_voltar">Alugar</button>
+            </div>
+            </form>
+        </div>
+        <div id="card_hist" class="card_hist">
+            <div class="card-body-hist">
+                <div class="card-title_hist">
+                    <h3>Histórico </h3>
+                </div>
+                <div class="card-text">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Último aluno</th>
+                                <th scope="col">Data Empréstimo</th>
+                                <th scope="col">Data retorno</th>
+                                <th scope="col">Duração</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for emprestimo in historico %}
+                            <tr>
+                                <th scope="row">{{ emprestimo.id }}</th>
+                                <td>{{emprestimo.nome_estudante}}</td>
+                                <td>{{emprestimo.data_emprestimo}}</td>
+                                <td>
+                                    {% if not emprestimo.data_devolucao %}
+                                        <p>Em uso</p>
+                                    {% else %}
+                                        {{emprestimo.data_devolucao}}
+                                    {% endif %} 
+                                </td>
+                                <td>{{emprestimo.data_devolucao|calcula_duracao:emprestimo.data_emprestimo}}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}

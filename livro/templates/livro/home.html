@@ -1,33 +1,56 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block conteudo %}
+{% block body_class %}home-background{% endblock %}
 
-<div class="row">
-    <div class="col-lg-12">
-        <div class="card-columns">
-            <form action="{% url 'emprestimo:meu_emprestimo:registrar' %}" method="POST">
-                {% csrf_token %}    
-                {% for livro in livros %}
-                <div class="card" style="width: 18rem;">
-                    <img src="{{livro.img.url}}" class="card-img-top" alt="capa">
-                    <div class="card-body">
-                        <h5 class="card-title">{{livro.titulo}}</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">{{livro.autor}}</h6>
-                        {% if livro.emprestado %}
-                            <h6>Indisponível</h6>
-                        {% else %}
-                            <h6>Disponível</h6>
-                        {% endif %}
-                        <input type="hidden" name="nome_estudante" value="{{ request.user.id }}">
-                        <input type="hidden" name="id" value="{{ livro.id }}">
-                        <button type="submit" class="btn btn-primary">Alugar</button>
-                        <a href="{% url 'livro:detalhes' livro.id %}" class="btn btn-info">Mais detalhes</a>
+{% block conteudo %}
+<div class="container mt-4">
+    <div id="cardCarousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner" style="overflow: visible;">
+            {% for livro in livros %}
+                <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                    <div class="d-flex justify-content-center">
+                        <div class="col-md-4">
+                            <form action="{% url 'emprestimo:emprestar:registrar' %}" method="POST">
+                                {% csrf_token %}
+                                <div class="card card_estante">
+                                    {% if livro.img %}
+                                        <img src="{{ livro.img.url }}" id="foto_capa_estante" class="card-img-top" alt="capa">
+                                    {% else %}
+                                        <img src="{% static 'media/livro_generico.jpg' %}" id="foto_capa_estante" class="card-img-top" alt="capa padrão">
+                                    {% endif %}
+                                    <div class="card-body card_body_estante">
+                                        <h5 class="card-title">{{ livro.titulo }}</h5>
+                                        <h6 class="card-subtitle mb-2 text-muted">{{ livro.autor }}</h6>
+                                        {% if livro.emprestado %}
+                                            <h6>Indisponível</h6>
+                                        {% else %}
+                                            <h6>Disponível</h6>
+                                        {% endif %}
+                                        <input type="hidden" name="nome_estudante" value="{{ request.user.id }}">
+                                        <input type="hidden" name="id" value="{{ livro.id }}">
+                                    </div>
+                                    <div class="botoes_card_livro">
+                                        <button type="submit" id="botao" class="btn botao_card_livro">Alugar</button>
+                                        <a href="{% url 'livro:detalhes' livro.id %}" id="botao_detalhe" class="btn" style="margin-top: 1em;">Mais detalhes</a>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
-                {% endfor %}
-            </form>
+            {% endfor %}
         </div>
+
+        <!-- Carrossel controles -->
+        <a class="carousel-control-prev" href="#cardCarousel" role="button" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#cardCarousel" role="button" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </a>
     </div>
 </div>
 {% endblock %}

@@ -17,7 +17,7 @@ class ListaLivros(LoginRequiredMixin, ListView):
     model = Livro
     template_name = 'livro/home.html'
     context_object_name = 'livros'
-    paginated_by = 9
+    paginate_by = 9
 
 class DetalhesLivro(LoginRequiredMixin, TodosEmprestimosMixin, HistoricoLivroMixin, DetailView):
     model = Livro
