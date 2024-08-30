@@ -1,18 +1,9 @@
 {% load static %}
 
-{% block extra_css %}
-    <link rel="stylesheet" href="{% static 'css/usuario.css' %}">
-{% endblock %}
-
 <nav class="navbar navbar-dark bg-dark navbar-expand-lg">
     <div class="img_logo">
-        <img class="titulo" href="{% url 'livro:home' %}"><img src="{% static 'media/1649816957059.jpeg' %}" alt="" style="width: 75px; height: 50px;"></a>
+        <a class="titulo" href="{% url 'livro:home' %}"><img src="{% static 'img/Capa_Logo.jpg' %}" alt="" style="width: 45px; height: 60px;"></a>
     </div>
-    {% if request.user.is_authenticated %}
-    <div class="boasvindas">
-        <h6 id="texto_bemvindos">Seja bem vindo(a) {{ request.user.first_name }}</h6>    
-    </div>
-    {% endif %}
     <div class="menu">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -48,4 +39,9 @@
             <button class="btn btn-secondary my-2 my-sm-0" type="submit">Pesquisar</button>
         </form> {% endcomment %}
     </div>
-</nav>
+    {% if request.user.is_authenticated %}
+    <div class="boasvindas">
+        <h6 id="texto_bemvindos">Seja bem vindo(a) {{ request.user.first_name }}</h6>    
+    </div>
+    {% endif %}
+]</nav>

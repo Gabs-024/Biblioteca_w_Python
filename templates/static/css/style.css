@@ -1,14 +1,29 @@
-.navbar {
-    background-color: blue;
+.navbar_geral {
+    background-color: black;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+#content {
+    flex: 1;
 }
 
 #fixed-footer {
-    bottom: 0;
-    width: 100%;
     height: 3em;
     text-align: center;
     z-index: 1000;
-    background-color: rgb(15, 15, 15);
+    background-color: rgb(60, 60, 60);
+    width: 100%;
 }
 
 .container {
@@ -24,3 +39,107 @@
     display: flex;
     text-align: center;
 }
+
+.login-background {
+    background-image: url("../img/meia-noite.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.home-background {
+    background-image: url("../img/Fundo_Biblioteca2.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#botao {
+    box-shadow: 1px 1px 10px rgba(100, 100, 100, 0.7);
+    background-color: #49c21a;
+    color: white;
+}
+
+#botao_detalhe {
+    box-shadow: 1px 1px 10px rgba(100, 100, 100, 0.7);
+    background-color: #56ca29;
+    color: white;
+    width: 100%;
+}
+
+.botao_voltar {
+    box-shadow: 1px 1px 10px rgba(100, 100, 100, 0.7);
+    background-color: #52d71e;
+    color: white;
+    width: 10em;
+}
+
+.botao_devolver {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#botao:hover, #botao_detalhe:hover {
+    box-shadow: 5px 5px 10px rgba(5, 5, 1, 0.7);
+    background-color: #33a705;
+    color: white;
+}
+
+.botao_voltar:hover {
+    box-shadow: 5px 5px 10px rgba(5, 5, 1, 0.7);
+    background-color: #33a705;
+    color: white;
+    width: 10em;
+}
+#botao:checked  {
+    background-color: #3a8e19;
+}
+
+.rodape {
+    height: 3em;
+}
+
+/* Estilos personalizados para o carrossel */
+
+.carousel {
+    position: relative; /* Para posicionamento dos controles */
+    overflow: hidden;   /* Garante que os itens não ultrapassem o contêiner do carrossel */
+    width: 100%;
+}
+
+.carousel-inner {
+    display: flex;       /* Flexbox para alinhas os itens */
+    justify-content: center; /* Centraliza os itens */
+    overflow: visible;   /* Permite que os itens adjacentes sejam parcialmente visíveis */
+    padding: 0 20%;      /* Ajusta o espaçamento lateral para exibir parcialmente os próximos itens */
+}
+
+.carousel-item {
+    flex: 0 0 auto;      /* Garante que os itens não cresçam além do tamanho especificado */
+    width: 60%;          /* Define a largura de cada item */
+    margin: 0 2%;        /* Adiciona espaçamento entre os itens */
+    transition: transform 0.5s ease-in-out; /* Suaviza a transição entre os itens */
+}
+
+.carousel-control-prev, .carousel-control-next {
+    width: 5%;          /* Ajusta a largura dos controles de navegação */
+    position: absolute; /* Garante que os controles fiquem sobre o carrossel */
+    top: 50%;           /* Centraliza verticalmente */
+    transform: translateY(-50%);
+    z-index: 5;         /* Mantém os controles acima dos outros elementos */
+}
+
+/* Estilos opcionais para personalização dos cards */
+.card_estante {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adiciona sombra aos cards */
+    border-radius: 10px; /* Arredonda as bordas dos cards */
+}
+
+#foto_capa_estante {
+    height: 250px;          /* Altura da imagem do card */
+    object-fit: cover;      /* Garante que a imagem preencha o card sem distorção */
+    border-top-left-radius: 10px;  /* Arredonda as bordas da imagem */
+    border-top-right-radius: 10px;
+}
+
