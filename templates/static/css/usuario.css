@@ -29,8 +29,10 @@ body {
     color: white;
     display: flex;
     justify-content: right;
-    width: 100%;
+    width: 50em;
     margin-right: 2%;
+    align-items: center;
+    margin-top:1em;
 }
 
 .linha {

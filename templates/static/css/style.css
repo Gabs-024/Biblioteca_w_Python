@@ -2,6 +2,29 @@
     background-color: black;
 }
 
+.nav-item {
+    width: 7em;
+}
+
+.meus_itens {
+    width: 10em;
+    display: flex;
+    justify-content: space-between;
+    margin-left: 1em;
+}
+
+#nav_botao {
+    width:5em;
+    display: flex;
+    text-decoration: none;
+}
+
+.cadastrar_botoes {
+    width: 11em;
+    display: flex;
+    justify-content: space-between;
+}
+
 html, body {
     margin: 0;
     padding: 0;
@@ -160,3 +183,41 @@ html, body {
     border-top-right-radius: 10px;
 }
 
+.messages-container {
+    position: absolute;
+    top: 80px; /* Ajuste conforme necessário */
+    right: 20px;
+    width: auto;
+    max-width: 300px;
+    z-index: 1000;
+}
+
+.alert {
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    color: #155724; /* Certifique-se de que a cor do texto seja visível */
+    background-color: #d4edda; /* Verde claro para sucesso */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.alert-success {
+    background-color: #d4edda; /* Verde claro para sucesso */
+    color: #155724; /* Cor do texto */
+}
+
+.alert-error {
+    background-color: #f8d7da; /* Vermelho claro para erro */
+    color: #721c24;
+}
+
+.alert-info {
+    background-color: #d1ecf1; /* Azul claro para informação */
+    color: #0c5460;
+}
+
+.alert-warning {
+    background-color: #fff3cd; /* Amarelo claro para aviso */
+    color: #856404;
+}

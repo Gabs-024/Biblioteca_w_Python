@@ -11,29 +11,19 @@
         </button>
     </div>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav ml-auto">
-            {% if request.user.is_authenticated %}
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Conta
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="{% url 'emprestimo:meus_emprestimos' %}">Meus livros</a>
-                    <a class="dropdown-item" href="{% url 'usuario:cadastrar' %}">Atualizar perfil</a>
-                    <a class="dropdown-item" href="{% url 'usuario:logout' %}">Sair</a>
-                </div>
-            </li>
-            {% else %}
-            <li class="nav-item">
-                <a class="nav-link active" href="{% url 'usuario:cadastrar' %}">Cadastrar</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link active" href="{% url 'usuario:login' %}">Entrar</a>
-            </li>
-            {% endif %}
-        </ul>
+    <div class="collapse navbar-collapse" id="botoes_navbar">
+        <div class="meus_itens">
+            <ul class="navbar-nav ml-auto">
+                {% if request.user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link active" href="{% url 'emprestimo:meus_emprestimos' %}">Meus livros</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="{% url 'usuario:cadastrar' %}">Meu perfil</a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
         {% comment %} <form method="GET" action="{% url 'produto:busca' %}" class="form-inline my-2 my-lg-0">
             <input class="form-control mr-sm-2" name="termo" value="{{ request.GET.termo }}" type="search" placeholder="Pesquisar" aria-label="Search">
             <button class="btn btn-secondary my-2 my-sm-0" type="submit">Pesquisar</button>
@@ -41,7 +31,17 @@
     </div>
     {% if request.user.is_authenticated %}
     <div class="boasvindas">
-        <h6 id="texto_bemvindos">Seja bem vindo(a) {{ request.user.first_name }}</h6>    
+        <p id="texto_bemvindos">Seja bem vindo(a) {{ request.user.first_name }} - {{ request.user.usuario.matricula }}</p>    
+    </div>
+    <ul class="navbar-nav ml-auto">
+        <li class="nav-item">    
+            <a id="texto_sair" class="nav-link active" href="{% url 'usuario:logout' %}">Sair</a>
+        </li>
+    </ul>
+    {% else %}
+    <div class="cadastrar_botoes">
+        <a id="botao" class="btn" href="{% url 'usuario:cadastrar' %}">Cadastrar</a>
+        <a id="botao" class="btn" href="{% url 'usuario:login' %}">Entrar</a>
     </div>
     {% endif %}
-]</nav>
+</nav>

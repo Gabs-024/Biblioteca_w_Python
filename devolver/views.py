@@ -1,5 +1,6 @@
 from datetime import timezone
 from django.shortcuts import get_object_or_404, redirect, render
+from django.contrib import messages
 
 from devolver.models import Devolver
 from emprestimo.models import Emprestimo
@@ -20,10 +21,6 @@ def devolver(request):
 
         livro = get_object_or_404(Livro, id = id_livro)
         print(f"Livro encontrado: {livro}") 
-
-        if not emprestimo_obj.livro_emprestar.emprestado:
-            print("Livro já foi devolvido anteriormente.")  
-            return redirect('emprestimo:meus_emprestimos')
         
         devolucao = Devolver(emprestimo_obj=emprestimo_obj)
 
@@ -45,8 +42,8 @@ def devolver(request):
         livro.save()
         emprestimo_obj.save()
 
-        print(f"Emprestimo ID: {id}, Livro: {emprestimo_obj.livro_emprestar.titulo}")        
+        messages.success(request, 'Livro devolvido com sucesso!')
         return redirect('emprestimo:meus_emprestimos')
     else:
-        print("Método de requisição inválido. Esperado POST.")  
+        messages.error(request, 'Tente novamente')
         return redirect('livro:home')

@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.shortcuts import get_object_or_404, redirect, render
 
 from emprestar.models import Emprestar
@@ -20,7 +21,9 @@ def registrar_emprestimo(request):
         if not livro.emprestado:
             emprestimo.save()
             obj_emprestimo.save()
+            messages.success(request, 'Livro emprestado com sucesso!')
         else:
+            messages.error(request, 'Não foi possível alugar este livro.')
             return redirect('livro:home')
 
         return redirect('emprestimo:meus_emprestimos')

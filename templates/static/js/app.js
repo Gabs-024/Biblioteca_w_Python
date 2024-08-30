@@ -34,3 +34,30 @@ prev.onclick = function(){
     active = active - 1 >= 0 ? active - 1 : active;
     loadShow();
 }
+
+// Aguarda 100 ms para garantir que a mensagem esteja renderizada
+setTimeout(function() {
+    // Seleciona todas as mensagens de alerta
+    const allMessages = document.querySelectorAll('.messages-container .alert');
+
+    // Itera sobre todas as mensagens encontradas
+    allMessages.forEach(function(message) {
+        // Se a mensagem for de sucesso, aguarda 10 segundos antes de redirecionar
+        if (message.classList.contains('alert-success')) {
+            setTimeout(function() {
+                // Aqui você pode redirecionar, se necessário
+                // window.location.href = "{% url 'alguma:pagina' %}";
+            }, 3000);  // Tempo para exibir a mensagem antes de redirecionar (10 segundos)
+        } else {
+            // Aplica o efeito de ocultar mensagem para outras classes de alerta
+            setTimeout(function() {
+                message.style.transition = "opacity 0.5s ease";
+                message.style.opacity = "0";
+                setTimeout(() => message.style.display = "none", 500);
+            }, 3000);  // Tempo para ocultar mensagens de erro ou aviso (5 segundos)
+        }
+    });
+}, 100);  // Um pequeno atraso para garantir que o DOM esteja completamente carregado
+
+
+ 
