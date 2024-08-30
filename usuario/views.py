@@ -138,7 +138,7 @@ class Cadastrar(BasePerfil):
 
         messages.success(
             self.request,
-            'Login realizado com sucesso!'
+            'Cadastro realizado com sucesso!'
         )
 
         return redirect('livro:home')
@@ -157,12 +157,10 @@ class UserLogin(View):
         if user is not None:
             login(request, user)
             messages.success(request, 'Login realizado com sucesso!')
-            print('Login realizado com sucesso!')
             return redirect('livro:home')
         else:
-            messages.error(request, 'Nome de usuário ou senha incorretos.')
-            print('Login ou senha incorretos.')
-            return render(request, self.template_name)
+            messages.error(request, 'Usuário e/ou senha inválidos.')
+            return redirect('usuario:login')
         
     def get(self, request, *args, **kwargs):
         return render(request, self.template_name)

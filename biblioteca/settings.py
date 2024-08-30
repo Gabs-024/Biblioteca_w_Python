@@ -142,11 +142,11 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
 MESSAGE_TAGS = {
-    constants.DEBUG: 'alert-info',
-    constants.ERROR: 'alert-danger',
-    constants.INFO: 'alert-info',
-    constants.SUCCESS: 'alert-success',
-    constants.WARNING: 'alert-warning',
+    constants.DEBUG: 'info',
+    constants.ERROR: 'error',
+    constants.INFO: 'info',
+    constants.SUCCESS: 'success',
+    constants.WARNING: 'warning',
 }
 
 SESSION_COOKIE_AGE = 60 * 60 * 24 * 7
