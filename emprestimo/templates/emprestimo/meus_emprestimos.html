@@ -22,9 +22,9 @@
                     </tr>
                 </thead>
                 <tbody>
+                    {% for livro in emprestimos %}
                     <form action="{% url 'emprestimo:devolucao:devolver' %}" method="POST">
                         {% csrf_token %} 
-                        {% for livro in emprestimos %}
                         <tr>
                             <th scope="row">{{ livro.id }}</th>
                             <td><a href="{% url 'livro:detalhes' livro.livro_emprestar_id %}" class="detalhe_livro">{{ livro.livro_emprestar_id }}
@@ -57,8 +57,8 @@
                             <input type="hidden" name="nome_estudante" value="{{ request.user.id }}">
                             <input type="hidden" name="livro_emprestar_id" value="{{ livro.livro_emprestar_id }}">
                         </tr>
-                        {% endfor %}
                     </form>
+                    {% endfor %}
                 </tbody>
             </table>
         </div>
